@@ -12,6 +12,14 @@ public class DoorUnlock : MonoBehaviour
     public Vector3 openOffset = new Vector3(0f, 2.1f, 0f);
     public float openTime = 1.5f;
 
+    [Header("Going through the door")]
+    public Transform doorway;
+    public Transform xrOrigin;
+    public Transform destination;
+    public BodyManager bodyManager;
+    public ScreenFader fader;
+    public float triggerDistance = 0.6f;
+
     bool isOpen = false;
 
     void OnEnable()
@@ -46,5 +54,25 @@ public class DoorUnlock : MonoBehaviour
         }
 
         transform.position = end;
+        yield return StartCoroutine(WaitForPlayer());
+    }
+
+    IEnumerator WaitForPlayer()
+    {
+        Transform head = Camera.main.transform;
+
+        while (true)
+        {
+            Vector3 offset = head.position - doorway.position;
+            offset.y = 0f;
+            if (offset.magnitude < triggerDistance) break;
+            yield return null;
+        }
+
+        // the loop has ended, so these lines run exactly once
+        yield return StartCoroutine(fader.Fade(1f));
+        xrOrigin.SetPositionAndRotation(destination.position, destination.rotation);
+        bodyManager.SetBody(bodyManager.normalScale);
+        yield return StartCoroutine(fader.Fade(0f));
     }
 }
