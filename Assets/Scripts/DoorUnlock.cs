@@ -18,7 +18,9 @@ public class DoorUnlock : MonoBehaviour
     public Transform destination;
     public BodyManager bodyManager;
     public ScreenFader fader;
-    public float triggerDistance = 0.6f;
+    public float triggerDistance = 1f;
+    public RoomLimit roomLimit;
+    public BoxCollider chamber2Area;
 
     bool isOpen = false;
 
@@ -72,6 +74,7 @@ public class DoorUnlock : MonoBehaviour
         // the loop has ended, so these lines run exactly once
         yield return StartCoroutine(fader.Fade(1f));
         xrOrigin.SetPositionAndRotation(destination.position, destination.rotation);
+        roomLimit.SetArea(chamber2Area);
         bodyManager.SetBody(bodyManager.normalScale);
         yield return StartCoroutine(fader.Fade(0f));
     }
