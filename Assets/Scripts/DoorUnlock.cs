@@ -71,7 +71,6 @@ public class DoorUnlock : MonoBehaviour
             yield return null;
         }
 
-        // the loop has ended, so these lines run exactly once
         yield return StartCoroutine(fader.Fade(1f));
         xrOrigin.SetPositionAndRotation(destination.position, destination.rotation);
         roomLimit.SetArea(chamber2Area);
