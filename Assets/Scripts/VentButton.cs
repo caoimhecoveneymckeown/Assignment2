@@ -14,6 +14,8 @@ public class VentButton : MonoBehaviour
     public Vector3 openAngle = new Vector3(0f, 0f, 90f);
     public float openTime = 1.5f;
     public bool isOpen = false;
+    public AudioSource ventSound;
+    public AudioSource pressSound;
 
     private XRSimpleInteractable interactable;
     
@@ -43,12 +45,15 @@ public class VentButton : MonoBehaviour
             return;
         }
 
+        if (pressSound != null) pressSound.Play();
+
         StartCoroutine(OpenVent());
     }
 
     IEnumerator OpenVent()
     {
         isOpen = true;
+        if (ventSound != null) ventSound.Play();
         Quaternion start = ventHinge.localRotation;
         Quaternion end = start * Quaternion.Euler(openAngle);
         float timer = 0f;

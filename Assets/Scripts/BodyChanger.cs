@@ -5,6 +5,7 @@ public class BodyChanger : MonoBehaviour
 {
     public BodyManager bodyManager;
     public float[] scales = { 1f, 1.5f };
+    public AudioSource sizeSound;
 
     private int index = 0;
     private XRSimpleInteractable interactable;
@@ -28,5 +29,11 @@ public class BodyChanger : MonoBehaviour
     {
         index = (index + 1) % scales.Length;
         bodyManager.SetBody(scales[index]);
+
+        if (sizeSound != null)
+        {
+            sizeSound.pitch = 1f / scales[index];
+            sizeSound.Play();
+        }
     }
 }
