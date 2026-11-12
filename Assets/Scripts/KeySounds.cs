@@ -4,6 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class KeySounds : MonoBehaviour
 {
     public AudioSource grabSound;
+    public float grabVolume = 1.5f;
 
     private XRGrabInteractable grab;
 
@@ -24,8 +25,7 @@ public class KeySounds : MonoBehaviour
 
     void OnGrabbed(SelectEnterEventArgs args)
     {
-        // The door socket also "selects" the key, so skip that case
         if (args.interactorObject is XRSocketInteractor) return;
-        if (grabSound != null) grabSound.Play();
+        if (grabSound != null) grabSound.PlayOneShot(grabSound.clip, grabVolume);
     }
 }
