@@ -80,7 +80,6 @@ public class DoorUnlock : MonoBehaviour
         }
 
         yield return StartCoroutine(fader.Fade(1f));
-        yield return StartCoroutine(fader.Fade(1f));
         if (finishText != null) finishText.SetActive(true);
     }
 }
