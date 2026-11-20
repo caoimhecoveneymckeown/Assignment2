@@ -26,13 +26,17 @@ public class RecordPlayer : MonoBehaviour
         if (interactable != null) interactable.selectEntered.RemoveListener(OnSelected);
     }
 
-    void OnSelected(SelectEnterEventArgs args)
+        void OnSelected(SelectEnterEventArgs args)
     {
+        Debug.Log("RecordPlayer: selected");
         Toggle();
     }
 
     public void Toggle()
     {
+        Debug.Log("RecordPlayer: Toggle called. music = " +
+            (music == null ? "NULL" : (music.clip == null ? "NO CLIP" : music.clip.name)));
+
         isOn = !isOn;
         if (isOn) music.UnPause();
         else      music.Pause();

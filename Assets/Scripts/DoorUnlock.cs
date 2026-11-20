@@ -15,6 +15,7 @@ public class DoorUnlock : MonoBehaviour
     public AudioSource keySound;
     public float keyTurnDelay = 1f;
     public AudioSource doorSound;
+    public GameObject finishText;
 
     [Header("Going through the door")]
     public Transform doorway;
@@ -79,9 +80,7 @@ public class DoorUnlock : MonoBehaviour
         }
 
         yield return StartCoroutine(fader.Fade(1f));
-        xrOrigin.SetPositionAndRotation(destination.position, destination.rotation);
-        roomLimit.SetArea(chamber2Area);
-        bodyManager.SetBody(bodyManager.normalScale);
-        yield return StartCoroutine(fader.Fade(0f));
+        yield return StartCoroutine(fader.Fade(1f));
+        if (finishText != null) finishText.SetActive(true);
     }
 }
