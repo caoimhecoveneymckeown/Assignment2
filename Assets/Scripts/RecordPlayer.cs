@@ -1,11 +1,14 @@
+// lets the player switch the record player on and off
+// the platter spins at a set RPM when record player is on
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class RecordPlayer : MonoBehaviour
 {
-    public AudioSource music;
-    public Transform platter;
-    public float rpm = 33.33f;
+    public AudioSource music;                 // the jazz track
+    public Transform platter;                 // the part that spins
+    public float rpm = 33.33f;                // classic record speed
     public Vector3 spinAxis = Vector3.up;
 
     private bool isOn;
@@ -26,26 +29,25 @@ public class RecordPlayer : MonoBehaviour
         if (interactable != null) interactable.selectEntered.RemoveListener(OnSelected);
     }
 
-        void OnSelected(SelectEnterEventArgs args)
+    // Selecting record player switches it on or off
+    void OnSelected(SelectEnterEventArgs args)
     {
-        Debug.Log("RecordPlayer: selected");
         Toggle();
     }
 
     public void Toggle()
     {
-        Debug.Log("RecordPlayer: Toggle called. music = " +
-            (music == null ? "NULL" : (music.clip == null ? "NO CLIP" : music.clip.name)));
-
         isOn = !isOn;
         if (isOn) music.UnPause();
         else      music.Pause();
+
 
         if (isOn && !music.isPlaying) music.Play();
     }
 
     void Update()
     {
+        // spin platter while record player on
         if (isOn && platter != null)
             platter.Rotate(spinAxis, rpm * 6f * Time.deltaTime, Space.Self);
     }

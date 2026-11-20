@@ -1,3 +1,6 @@
+// plays a sound when the player grabs the key
+// only player grab sound not for key in socket sound
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

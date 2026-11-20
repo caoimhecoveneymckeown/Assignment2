@@ -1,3 +1,9 @@
+// hidden button in the escape room
+// when pressed it switches on the mirror (hidden behind a painting)
+// after short delay painting swings open on hinge to reveal the mirror
+// 'press mirror' hint revealed after painting is fully open
+
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -12,6 +18,7 @@ public class RevealOnPress : MonoBehaviour
     public float openTime = 1f;
     public float swingDelay = 3f;
     public AudioSource paintingSound;
+    public GameObject hint;
 
     private XRSimpleInteractable interactable;
     private bool hasRevealed = false;
@@ -45,10 +52,13 @@ public class RevealOnPress : MonoBehaviour
             StartCoroutine(SwingPainting());
     }
 
+    // smoothly swing open painting
     IEnumerator SwingPainting()
     {
         yield return new WaitForSeconds(swingDelay);
         if (paintingSound != null) paintingSound.Play();
+
+        // where swing starts and ends
         Quaternion start = paintingHinge.localRotation;
         Quaternion end = start * Quaternion.Euler(0f, openAngle, 0f);
         float timer = 0f;
@@ -61,5 +71,8 @@ public class RevealOnPress : MonoBehaviour
         }
 
         paintingHinge.localRotation = end;
+
+        // if painting is open show the hint
+        if (hint != null) hint.SetActive(true);
     }
 }

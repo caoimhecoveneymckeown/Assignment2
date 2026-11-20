@@ -1,3 +1,8 @@
+// makes the avatar follow the player in VR
+// avatar stands on the floor under the headset
+// turns to where the player is facing (left and right motion only)
+// scales so player eye height results in matching height avatar
+
 using UnityEngine;
 
 public class AvatarFollow : MonoBehaviour

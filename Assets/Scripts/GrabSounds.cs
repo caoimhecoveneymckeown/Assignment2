@@ -1,3 +1,8 @@
+// plays sounds when player picks up an object
+// sound is 3D so the audio comes from the object itslef
+
+
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

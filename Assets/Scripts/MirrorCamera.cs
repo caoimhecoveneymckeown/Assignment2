@@ -1,3 +1,6 @@
+// puts a camera on the surface of the mirror looking out into the room
+// mirror shows whatever is in front of it like a reflection
+
 using UnityEngine;
 
 public class MirrorCamera : MonoBehaviour
@@ -6,7 +9,6 @@ public class MirrorCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        // the mirror's face direction is its thinnest axis
         Vector3 s = mirror.lossyScale;
         Vector3 normal;
         float thickness;
@@ -14,11 +16,11 @@ public class MirrorCamera : MonoBehaviour
         else if (s.x <= s.y)          { normal = mirror.right;   thickness = s.x; }
         else                          { normal = mirror.up;      thickness = s.y; }
 
-        // make it point out into the room, towards the player
+        // point towards the player
         Vector3 head = Camera.main.transform.position;
         if (Vector3.Dot(normal, head - mirror.position) < 0f) normal = -normal;
 
-        // camera sits on the mirror's face, looking into the room
+        // camera sits on mirror and looks into room
         transform.position = mirror.position + normal * (thickness * 0.5f + 0.02f);
         transform.rotation = Quaternion.LookRotation(normal, Vector3.up);
     }

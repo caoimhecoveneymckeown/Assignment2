@@ -1,3 +1,9 @@
+// prevents player from walking through furniture
+// uses an invisible body capsule from knee height up to headset
+// if it overlaps with an obstacle the player is pushed sideways
+// capsule scales with body size and anything below knee hieght is ignored
+
+
 using UnityEngine;
 
 public class FurnitureBlocker : MonoBehaviour

@@ -1,3 +1,8 @@
+// keyboard shortcuts for testing and recovering 
+// R restarts the whole game
+// K puts the key back in its start position
+// C puts the cube (object concealing the button) back in its start position
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;

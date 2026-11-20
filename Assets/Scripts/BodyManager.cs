@@ -1,3 +1,7 @@
+// controls player size by scalig XR Origin
+// SetBody glides smoothly to a new size and stops player from drifting when body size changes
+// f1/f2/f3 keys assigned as debug keys for testing the different sizes
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,11 +33,12 @@ public class BodyManager : MonoBehaviour
         if (keyboard.f3Key.wasPressedThisFrame) SetBody(smallScale);
     }
 
-    // Glides to the new size
+    // called by mirror to start changing size
     public void SetBody(float scale)
     {
         if (xrOrigin == null)
         {
+            // warning message if XR Origin slot is not assigned
             Debug.LogWarning("Warning - no XR Origin assigned.");
             return;
         }
@@ -42,29 +47,33 @@ public class BodyManager : MonoBehaviour
         resizing = StartCoroutine(GlideTo(scale));
         Debug.Log("Body size set to " + scale);
     }
-
-    // Jumps straight to the new size (used by the door teleport)
-    public void SetBodyInstant(float scale)
-    {
-        if (xrOrigin == null) return;
-
-        if (resizing != null) StopCoroutine(resizing);
-        xrOrigin.localScale = Vector3.one * scale;
-    }
-
+    
+    // blends from current size to target size 
     IEnumerator GlideTo(float target)
     {
+        Transform head = Camera.main.transform;
         float start = xrOrigin.localScale.y;
         float timer = 0f;
 
         while (timer < changeTime)
         {
             timer += Time.deltaTime;
+            // smooth transition so not a sharp jump between avatar height change
             float t = Mathf.SmoothStep(0f, 1f, timer / changeTime);
-            xrOrigin.localScale = Vector3.one * Mathf.Lerp(start, target, t);
+            ApplyScale(Mathf.Lerp(start, target, t), head);
             yield return null;
         }
 
-        xrOrigin.localScale = Vector3.one * target;
+        ApplyScale(target, head);
+    }
+
+    // Scale the origin then shift so head stays at the same spot
+    void ApplyScale(float s, Transform head)
+    {
+        Vector3 before = head.position;
+        xrOrigin.localScale = Vector3.one * s;
+        Vector3 shift = before - head.position;
+        shift.y = 0f;               // only correct sideways drift not height
+        xrOrigin.position += shift;
     }
 }

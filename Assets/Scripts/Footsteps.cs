@@ -1,3 +1,9 @@
+// plays footstep sounds as the player moves
+// based on how far player headset moves
+// random clip from a list plays with every player step
+// stridel ength and pitch scale with the body size of the player (bigger body takes longer steps)
+// ignores big jumps and stops sound when player stands still
+
 using UnityEngine;
 
 public class Footsteps : MonoBehaviour
@@ -34,19 +40,18 @@ public class Footsteps : MonoBehaviour
         float moved = (now - lastPos).magnitude;
         lastPos = now;
 
-        // A huge jump is the teleport between chambers, not walking
+        // ignore sudden and large jumps
         if (moved > 1f) return;
 
-        // Stop the sound when standing still, or when a step runs too long
+        // Stop the sound when standing still
         if (moved < 0.003f)
         {
             idleTime += Time.deltaTime;
-            // Once stopped, pre-load the counter so the next step comes quickly
             if (idleTime > 0.15f)
             distance = strideLength * xrOrigin.localScale.y * (1f - firstStepFraction);
             }
             
-            else idleTime = 0f;
+        else idleTime = 0f;
 
         if (source.isPlaying &&
             (idleTime > 0.15f || Time.time - playStart > maxStepSeconds))

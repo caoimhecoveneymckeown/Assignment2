@@ -1,3 +1,6 @@
+// fade to black screen for end of game
+// value 1 for fully black and value 0 for transparent
+
 using System.Collections;
 using UnityEngine;
 
