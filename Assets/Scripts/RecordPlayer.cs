@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class RecordPlayer : MonoBehaviour
 {
-    public AudioSource music;                 // the jazz track
+    public AudioSource music;                 
     public Transform platter;                 // the part that spins
     public float rpm = 33.33f;                // classic record speed
     public Vector3 spinAxis = Vector3.up;
